@@ -126,6 +126,115 @@ _(Coming soon)_
 ## Примеры
 
 ### Использование модуля Chart
+Точно так же как мы создавали таблицу, мы можем создать график
+Создадим Rest DataStore (Вы должны иметь [backend](https://github.com/avz-cmf/zaboy-dojo "backend") )
+```javascript 
+
+    var centralDataStore = new (declare([StoreRqlFilter, Trackable]))({
+                'headers': {
+                    'Accept': 'application/json'
+                },
+                'useRangeHeaders': true,
+                "target": "/rest/sin"
+            });
+
+```
+
+Теперь создадим char
+В данном случаче мы будем сторить синусоиду по этому Chart type будет Lines
+
+```javascript 
+
+    var filterChartOption = {
+            "title": "Гистограмма цены выставленных товаров",
+            "name": "plotPublishPrice",
+            "store": centralDataStore,
+            "type": Columns,
+            "xAxisLabel": 'Ось абсцисс',
+            "yAxisLabel": 'Ось ординат'
+        };
+    
+    var filterChart = new Chart(filterChartOption);
+    
+```
+
+Теперь можно так же добавить поддержку панели управления фльтрами
+Создадим и сконфигурируем саму панель фильтров для нашего графика
+```javascript
+        var chartFilterControlPanel = new FilterControlPanel({
+            "title": "Панель управления фильтрами ",
+            "id": "chartFilter",
+            "name": "plotPublishPrice",
+            "columns": [
+                {"label": "id", "field": "id"},
+                {
+                    "label": "Название",
+                    "field": "name",
+                    "editor": "text",
+                    "editOn": "dblclick",
+                    "autoSave": true
+                }
+            ],
+            "filteredStoreDataOption": [
+                {
+                    "label": "Ось абсцисс",
+                    "value": {
+                        "type": "string",
+                        "name": "x",
+                        "field": {
+                            'type': "TextBox"
+                        }
+                    },
+                    "filter": [
+                        {"id": 0, "label": "=", "value": "eq"},
+                        {"id": 0, "label": ">", "value": "gt"},
+                        {"id": 0, "label": "<", "value": "lt"},
+                        {"id": 0, "label": ">=", "value": "gte"},
+                        {"id": 0, "label": "<=", "value": "lte"},
+                        {"id": 0, "label": "!=", "value": "ne"}
+                    ]
+                },
+                {
+                    "label": "Ось ординат",
+                    "value": {
+                        "type": "string",
+                        "name": "y",
+                        "field": {
+                            'type': "TextBox"
+                        }
+                    },
+                    "filter": [
+                        {"id": 0, "label": "=", "value": "eq"},
+                        {"id": 0, "label": ">", "value": "gt"},
+                        {"id": 0, "label": "<", "value": "lt"},
+                        {"id": 0, "label": ">=", "value": "gte"},
+                        {"id": 0, "label": "<=", "value": "lte"},
+                        {"id": 0, "label": "!=", "value": "ne"}
+                    ]
+                }
+            ],
+            "store": new (declare([Rest, RequestMemory, Trackable]))({
+                'headers': {
+                    'Accept': 'application/json'
+                },
+                "target": "/rest/filters_list"
+            })
+        });
+
+```
+
+Соеденим панель фильтров и chart 
+
+```javascript
+
+    var chartDataPreviewControlPanel = new DataPreviewControlPanel({
+            title: "Функция f(x) = sin(x) (Синусоида)",
+            filterControlPanel: chartFilterControlPanel,
+            dataViewer: filterChart
+        });
+
+```
+
 ### Использование модуля Composite
 ### Поддерживаемый RQL
 
