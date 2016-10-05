@@ -1,7 +1,7 @@
 # Smart
 
 The best project ever.
-#ojo-rql Module
+#dojo-rql Module
 Модуль для отображения данных с иcпользованием умных(разширеных) фильтров
  - `Chart` - модуль для поддержки фильтров в графиках
  - `Composite` - модуль для компоновки виджетов
@@ -124,7 +124,39 @@ The best project ever.
 _(Coming soon)_
 
 ## Примеры
-_(Coming soon)_
+
+### Использование модуля Chart
+### Использование модуля Composite
+### Поддерживаемый RQL
+
+* query
+    * LogicOperator
+        * and()
+        * or()
+        * not()
+    * ArrayOperator
+        * in()
+        * out()
+    * ScalarOperator
+        * eq()
+        * ne()
+        * ge()
+        * gt()
+        * le()
+        * lt()
+        * like()
+* select
+    * Aggregate func
+        * count()
+        * max()
+        * min()
+        * groupby()
+* sort()
+* limit(limit, offset)
+`and(and(eq(q,null()),ne(q,null()),le(q,r),ge(q,u)),or(lt(q,t),gt(q,y),in(q,(a,s,d,f,g))))
+&limit(20,30)&sort(-q)
+&select(q,max(q),min(q),count(q))`
+
 
 ## License
 Copyright (c) 2016 victorynox
