@@ -1,0 +1,9 @@
+node_modules
+.idea/copyright/
+.idea/dojo-rql.iml
+.idea/encodings.xml
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/modules.xml
+.idea/workspace.xml
+

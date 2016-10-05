@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var dojoConfig = {
+        async: true,
+        isDebug: true,
+        // This code registers the correct location of the "demo"
+        // package so we can load Dojo from the CDN whilst still
+        // being able to load local modules
+        packages: [
+            {
+                name: "Rscript",
+                location: '../../../scripts'
+            }
+        ]
+    };
+</script>
+<script src="../../dojo/dojo/dojo.js"></script>
+<script>
+    require([
+        "dojo/dom",
+        'dojo/_base/array',
+        'dojo/json',
+        "Rscript/scriptListConfigNew",
+        "Rscript/RDataWidget/RDataWidget",
+        "Rscript/Smart/TableControlPanel/TableControlPanelFactory",
+
+        "Rscript/Smart/Composite/widget/Composite",
+        'Rscript/Smart/FilterControlPanel/widget/FilterControlPanel',
+        'Rscript/Smart/FilteredGrid/widget/FilteredGrid',
+        'Rscript/Smart/TableWithConfiguration/widget/TableWithConfiguration',
+        'Rscript/Smart/DataPreviewControlPanel/widget/DataPreviewControlPanel',
+        'Rscript/Smart/Chart/widget/Chart',
+
+        'dstore/Store',
+        'dstore/Memory',
+        'dstore/Request',
+        'dstore/LocalDB',
+        'dstore/Cache',
+        'dstore/Tree',
+        'Rscript/Smart/extensions/Store/StoreRqlFilter',
+        "dojox/charting/plot2d/Columns",
+
+        "dijit/form/Button",
+
+        'dstore/RequestMemory',
+        "dstore/Rest",
+        'dstore/Trackable',
+        "dojo/on",
+        "dojo/_base/window",
+        "dojo/_base/declare",
+        'dojo/request',
+        'dojo/_base/lang',
+        "dojo/dom-style",
+        "dojo/domReady!"
+    ], function (dom,
+                 array,
+                 json,
+                 scriptListConfig,
+                 RDataWidget,
+                 TableControlPanelFactory,
+                 Composite,
+                 FilterControlPanel,
+                 FilteredGrid,
+                 TableWithConfiguration,
+                 DataPreviewControlPanel,
+                 Chart,
+                 Store,
+                 Memory,
+                 Request,
+                 LocalDB,
+                 Cache,
+                 Tree,
+                 StoreRqlFilter,
+                 Columns,
+                 Button,
+                 RequestMemory,
+                 Rest,
+                 Trackable,
+                 on,
+                 window,
+                 declare,
+                 request,
+                 lang,
+                 domStyle) {
+        var centralDataStore = new (declare([StoreRqlFilter, Trackable]))({
+            'headers': {
+                'Accept': 'application/json'
+            },
+            'useRangeHeaders': true,
+            "target": "/rest/172fd083954b0837f4b9f80a5f4226be"
+        });
+
+        var filteredGridOption = {
+            "title": "Гистограмма цены выставленных товаров(табличное предствление)",
+            "name": "plotPublishPrice",
+            "options": {
+                "columns": [
+                    {"label": "id", "field": "id"},
+                    {"label": "Логарифм по основанию 10 от цены выставленного товара", "field": "x"},
+                    {
+                        "label": "Количество выставленных товаров из данного ценового интервалая",
+                        "field": "y"
+                    }
+                ],
+                "collection": centralDataStore,
+                "selectionMode": "single",
+                "pagingLinks": false,
+                "pagingTextBox": true,
+                "firstLastArrows": true,
+                "rowsPerPage": 15,
+                "pageSizeOptions": [10, 15, 25]
+            },
+
+            "declare": [
+                "Grid",
+                "Keyboard",
+                "Selection",
+                "ColumnHider",
+                "ColumnResizer",
+                "GridRqlFilter"
+                //"_StoreMixin"
+            ]
+        };
+
+        var filterChartOption = {
+            "title": "Гистограмма цены выставленных товаров",
+            "name": "plotPublishPrice",
+            "store": centralDataStore,
+            "type": Columns,
+            "xAxisLabel": 'Логарифм по основанию 10 от цены выставленного товара',
+            "yAxisLabel": 'Количество выставленных товаров из данного ценового интервала'
+        };
+
+        var tableFilterControlPanel = new FilterControlPanel({
+            "title": "Панель управления фильтрами ",
+            "id": "tableFilter",
+            "name": "plotPublishPrice",
+
+            "filteredStoreDataOption": [
+                {
+                    "label": "Логарифм по основанию 10 от цены выставленного товара",
+                    "value": {
+                        "type": "string",
+                        "name": "x",
+                        "field": {
+                            'type': "TextBox"
+                        }
+                    },
+                    "filter": [
+                        {"id": 0, "label": "=", "value": "eq"},
+                        {"id": 0, "label": ">", "value": "gt"},
+                        {"id": 0, "label": "<", "value": "lt"},
+                        {"id": 0, "label": ">=", "value": "gte"},
+                        {"id": 0, "label": "<=", "value": "lte"},
+                        {"id": 0, "label": "!=", "value": "ne"}
+                    ]
+                },
+                {
+                    "label": "Количество выставленных товаров из данного ценового интервалая",
+                    "value": {
+                        "type": "string",
+                        "name": "y",
+                        "field": {
+                            'type': "TextBox"
+                        }
+                    },
+                    "filter": [
+                        {"id": 0, "label": "=", "value": "eq"},
+                        {"id": 0, "label": ">", "value": "gt"},
+                        {"id": 0, "label": "<", "value": "lt"},
+                        {"id": 0, "label": ">=", "value": "gte"},
+                        {"id": 0, "label": "<=", "value": "lte"},
+                        {"id": 0, "label": "!=", "value": "ne"}
+                    ]
+                }
+            ],
+            "store": new (declare([Rest, RequestMemory, Trackable]))({
+                'headers': {
+                    'Accept': 'application/json'
+                },
+                "target": "/rest/filters_list"
+            })
+        });
+
+        var filterGrid = new FilteredGrid(filteredGridOption);
+
+        var filterGridTableWithConfiguration = new TableWithConfiguration({
+            title: "Гистограмма цены выставленных товаров(табличное предствление)",
+            table: filterGrid
+        });
+
+        var tableDataPreviewControlPanel = new DataPreviewControlPanel({
+            title: "Гистограмма цены выставленных товаров(табличное предствление)",
+            filterControlPanel: tableFilterControlPanel,
+            dataViewer: filterGridTableWithConfiguration
+        });
+
+        var chartFilterControlPanel = new FilterControlPanel({
+            "title": "Панель управления фильтрами ",
+            "id": "chartFilter",
+            "name": "plotPublishPrice",
+            "columns": [
+                {"label": "id", "field": "id"},
+                {
+                    "label": "Название",
+                    "field": "name",
+                    "editor": "text",
+                    "editOn": "dblclick",
+                    "autoSave": true
+                }
+            ],
+            "filteredStoreDataOption": [
+                {
+                    "label": "Логарифм по основанию 10 от цены выставленного товара",
+                    "value": {
+                        "type": "string",
+                        "name": "x",
+                        "field": {
+                            'type': "TextBox"
+                        }
+                    },
+                    "filter": [
+                        {"id": 0, "label": "=", "value": "eq"},
+                        {"id": 0, "label": ">", "value": "gt"},
+                        {"id": 0, "label": "<", "value": "lt"},
+                        {"id": 0, "label": ">=", "value": "gte"},
+                        {"id": 0, "label": "<=", "value": "lte"},
+                        {"id": 0, "label": "!=", "value": "ne"}
+                    ]
+                },
+                {
+                    "label": "Количество выставленных товаров из данного ценового интервалая",
+                    "value": {
+                        "type": "string",
+                        "name": "y",
+                        "field": {
+                            'type': "TextBox"
+                        }
+                    },
+                    "filter": [
+                        {"id": 0, "label": "=", "value": "eq"},
+                        {"id": 0, "label": ">", "value": "gt"},
+                        {"id": 0, "label": "<", "value": "lt"},
+                        {"id": 0, "label": ">=", "value": "gte"},
+                        {"id": 0, "label": "<=", "value": "lte"},
+                        {"id": 0, "label": "!=", "value": "ne"}
+                    ]
+                }
+            ],
+            "store": new (declare([Rest, RequestMemory, Trackable]))({
+                'headers': {
+                    'Accept': 'application/json'
+                },
+                "target": "/rest/filters_list"
+            })
+        });
+
+        var filterChart = new Chart(filterChartOption);
+
+        var chartDataPreviewControlPanel = new DataPreviewControlPanel({
+            title: "Гистограмма цены выставленных товаров",
+            filterControlPanel: chartFilterControlPanel,
+            dataViewer: filterChart
+        });
+
+        var composite = new Composite({
+            components: [tableDataPreviewControlPanel,
+                chartDataPreviewControlPanel
+            ]
+        }).placeAt(dom.byId('grid'));
+
+        composite.startup()
+    })
+</script>
+</body>
+</html>
