@@ -9,10 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/victorynox/Smart.git"
+    "url": "https://github.com/avz-cmf/dojo-rql"
   },
   "bugs": {
-    "url": "https://github.com/victorynox/Smart/issues"
+    "url": "https://github.com/avz-cmf/dojo-rql/issues"
   },
   "licenses": [
     {
