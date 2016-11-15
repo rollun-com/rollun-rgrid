@@ -31,7 +31,8 @@
     "dojox": "1.11.2",
     "dijit": "1.11.2",
     "dojo-dstore": "1.1.1",
-    "dgrid": "1.1.0"
+    "dgrid": "1.1.0",
+    "rql": "0.3.3"
   },
   "keywords": []
 }
