@@ -329,3 +329,5 @@ DataPreviewControlPanel - обертка над таблицей которая 
 ## License
 Copyright (c) 2016 victorynox
 Licensed under the GNU license.
+
+
