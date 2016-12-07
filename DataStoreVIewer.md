@@ -11,7 +11,7 @@ DataStoreViewer - компонент позволяющьй отображать
     
     ## Установка npm зависимостей используя плагин `fxp/composer-asset-plugin`
        
-    1) Следуйте инструкции 
+    1) [Следуйте инструкции](https://github.com/avz-cmf/zaboy-dojo#%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%82%D1%8C-npm-%D0%97%D0%B0%D0%B2%D0%B8%D1%81%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D0%B8) 
     
     ## установка используя NPM
      
@@ -31,23 +31,6 @@ DataStoreViewer - компонент позволяющьй отображать
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="/resource/js/dojo/resources/dojo.css" rel="stylesheet">
-    <link href="/resource/js/dijit/themes/claro/claro.css" rel="stylesheet">
-    <link rel="stylesheet" href="/resource/js/dojox/highlight/resources/highlight.css"/>
-    <link rel="stylesheet" href="/resource/js/dojox/highlight/resources/pygments/colorful.css"/>
-    <link rel="stylesheet" href="/resource/js/dgrid/css/dgrid.css"/>
-    <link rel="stylesheet" href="/resource/js/dgrid/css/skins/claro.css"/>
-    <link rel="stylesheet" href="/resource/js/dgrid/css/skins/claro.css"/>
-    <link rel="stylesheet" href="/resource/js/dojox/grid/enhanced/resources/claro/EnhancedGrid.css"/>
-    <link rel="stylesheet" href="/resource/js/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css"/>
-    <link rel="stylesheet" href="/resource/js/dojo-rql/lib/FilterEditor/resources/css/FilterEditor.css"/>
-
-    <link rel="stylesheet" href="/resource/js/dojo-rql/lib/DataStoreViewer/resource/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="/resource/js/dojo-rql/lib/DataStoreViewer/resource/bootstrap/css/bootstrap-theme.css">
-    <link rel="stylesheet" href="/resource/js/dojo-rql/lib/DataStoreViewer/resource/bootstrap/css/dashboard.css">
-
-    <script src="/resource/js/dojo-rql/lib/DataStoreViewer/resource/bootstrap/js/bootstrap.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body class="claro">
 <script>
@@ -71,42 +54,16 @@ DataStoreViewer - компонент позволяющьй отображать
     };
 </script>
 <script src="resource/js/dojo/dojo.js"></script>
-
-{#<button id="getUrl">Указать Url</button>#}
-<div id="DataStoreViewer"></div>
-{#<div id="util">
-    <button id="setFilter">Созать фильтр</button>
-    <button id="refresh">Перезагрузить таблицу(Очистить фильтры)</button>
-</div>#}
 <script>
-    require([
-        "dojo/dom",
-        'dojo/_base/array',
-        "dojo/query",
-        'dojo/json',
-        "Rscript/DataStoreViewer/DataStoreViewer",
-        "dojo/on",
-        "dojo/_base/window",
-        'dojo/_base/declare',
-        'dojo/_base/lang',
-        "dojo/dom-style",
-        "dojo/domReady!"
-    ], function (dom,
-                 array,
-                 query,
-                 json,
-                 DataStoreViewer,
-                 on,
-                 window,
-                 declare,
-                 request,
-                 lang,
-                 Deferred,
-                 domStyle) {
-        var dataStoreViewer = new DataStoreViewer();
-        dataStoreViewer.placeAt(dom.byId('DataStoreViewer'));
-        dataStoreViewer.startup();
-    })
+   /*<a>FOR READ DOC - GO TO "https://github.com/avz-cmf/dojo-rql/blob/master/DataStoreVIewer.md"</a>*/
+      require([
+          "dojo/dom",
+          "Rscript/DataStoreViewer/widget/DataStoreViewer",
+      ], function (dom,
+                   DataStoreViewer) {
+          var dataStoreViewer = new DataStoreViewer();
+          dataStoreViewer.placeAt(dom.byId('DataStoreViewer')).startup();
+      })
 </script>
 </body>
 </html>
@@ -156,3 +113,6 @@ DataStoreViewer - компонент позволяющьй отображать
 5) Запустите приложение.
 
 6) Нажмите кнопку `Указать Url ресурса` в поле ввода введите url удаленного хранилища.
+
+7) Вам тобразится ваше хранилище, теперь вы можете просматривать его содержимое, 
+так же доступна панель фильтров с помощью которой вы можете фильтровтаь данные в хранилище.
