@@ -1,4 +1,9 @@
 <div>
-    <div id="filter-active-${name}" data-dojo-attach-point="filterActiveNode"></div>
-    <div id="filtered-grid-${name}" data-dojo-attach-point="gridNode"></div>
+    <div class="search-refresh-bar">
+        <span id="refreshButton">
+            <span data-dojo-attach-point="gridRefreshButtonNode"></span>
+        </span>
+        <span id="searchBar" data-dojo-attach-point="filterActiveNode"></span>
+    </div>
+    <div id="filtered-grid-${name}" data-dojo-attach-point="gridNode" style="min-height: 300px"></div>
 </div>
