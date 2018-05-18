@@ -1,0 +1,22 @@
+.children-right-aligned {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.dgrid-page-size {
+    padding: 0;
+}
+
+.dgrid-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dgrid-status .dgrid-page-size .dgrid-navigation{
+margin: 0px 4px 0px 4px !important;
+}
+
+.filteredGrid {
+
+}
