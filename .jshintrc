@@ -1,5 +1,5 @@
 {
-  "esversion":6,
+  "esversion": 6,
   "curly": true,
   "eqeqeq": true,
   "immed": true,
@@ -9,7 +9,7 @@
   "sub": true,
   "undef": true,
   "unused": true,
-  "boss": true,
   "eqnull": true,
-  "node": true
+  "node": true,
+  "dojo": true
 }
