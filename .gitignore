@@ -1,8 +1,9 @@
 node_modules
 .idea/copyright/
-.idea/dojo-rql.iml
+.idea/rgrid.iml
 .idea/encodings.xml
 .idea/inspectionProfiles/
 .idea/misc.xml
 .idea/modules.xml
 .idea/workspace.xml
+.idea/php.xml
