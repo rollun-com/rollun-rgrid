@@ -1,9 +1,143 @@
 # Rgrid
-[dgrid](http://dgrid.io/) based grid, where components communicate through events and RQL.
-Comes with decent DnD filter editor
+[dgrid](http://dgrid.io/) based modular grid, where components communicate through events and RQL.
+Comes with decent DnD filter editor. All docs are currently only in russian.
 
-*Work In Progress*
-### License
-Licensed under the GNU license.
+## Быстрый старт
+
+Для получения минимального работоспособного приложения нужно:
+* создать хранилище с данными, которое принимает Query,
+* передать это хранилище в таблицу.
+```
+require(['rgrid/Rgrid','rgrid/store/QueryableStore'], (Rgrid, queryableStore) => {
+    const grid = new Rgrid({
+        collection: new QueryableStore({target: 'my/datastore'})
+        }, 'grid')
+    grid.loadContent();
+})
+```
+В итоге выйдет таблица, которая отрисовывает первые 15 записей из хранилища.
+
+    15 - значение по умолчанию. Его можно изменить
+
+Чтобы управлять тем, какие данные отрисовывает таблица, нужно менять обьект Query, который она содержит.
+* Выбор полей - нода select, количество строк - нода limit.
+* Для фильтрациии данных добавляйте в Query дополнительные условия.
+
+```
+Query = require('rql/query').Query;
+grid.appendQuery(new Query({name: 'select', args: ['id', 'name', 'value']);
+grid.loadContent();
+```
+Код выше добавит к Query таблицы ноду `select` и загрузит содержимое согласно обновлённому Query.
+В итоге таблица отрисует 15 записей с полями 'id', 'name', 'value'.
+
+Методы таблицы для работы с Query:
+* `setQuery(query)` - заменить внутренний Query новым
+* `getQuery()` - получить **копию** Query из таблицы
+* `appendQuery(query)` - дополнить Query новыми нодами, заменяя совпадения новым
+
+        Алгоритм заменяет ноды select, sort, limit новыми нодами с такими же именами, если они есть.
+        После он удаляет все ноды, кроме выше упомянутых ( ноды 'eq', 'contains', ...)
+        и добавляет новые условия
+
+## Работа с модулями
+### Базовый вариант
+Обьединение компонентов в одну систему нужно при помощи общей шины событий.
+
+        Все наши модули содежат `_EventDrivenMixin`, отрый предоставляет методы для
+        работы с событиями.
+
+Для простейшего оюбьединения достаточно передать двум компонентам общую шину событий:
+```
+require(['rgrid/Rgrid',
+        'rgrid/store/QueryableStore',
+        'rgrid/Pagination',
+        'dojo/Evented',
+        'dojo/dom'],
+        (Rgrid,
+        QueryableStore,
+        Pagination,
+        Evented,
+        dom) => {
+    const eventBus = new Evented(),
+        grid = new Rgrid({
+            eventBus: eventBus,
+            collection: new QueryableStore({target: 'my/datastore'})
+         }, 'grid'),
+        pagination = new Pagination({eventBus: eventBus})
+        pagination.placeAt(dom.byId('pagination'));
+    grid.loadContent();
+```
+
+Но мы рекомендуем применять `EventScope`.
+### Обьединение компонентов с помощью `EventScope`
+`EventScope` - закрытое пространство событий для связи группы компонентов между собой.
+Компоненты слушают свой EventScope на предмет нужных им данных, и эмитят в него
+результаты своей работы.
+
+Чтобы добавить к таблице модули, поместите их в один EventScope с таблицей.
+* Компоненты, которые используют EventScope, обязаны содержать `_EventDrivenMixin`.
+* Таблица будет слушать EventScope на предмет событий, меняющих её состояние.
+* Модули будут эмитить эти события, используя методы из `_EventDrivenMixin`
+* Получают информацию так же
+* Посредством EventScope можно обьединить два любых модуля, способных работать с событиями
+
+        Например, два Store или две таблицы, размещённые в разных местах на странице
+
+```
+require(['rgrid/Rgrid',
+        'rgrid/store/QueryableStore',
+        'rgrid/Pagination',
+        'dojo/dom'],
+        (Rgrid,
+        QueryableStore,
+        Pagination,
+        dom,
+        EventScope) => {
+    const eventScope = new EventScope(),
+        grid = new Rgrid({
+            collection: new QueryableStore({target: 'my/datastore'})
+         }, 'grid'),
+        pagination = new Pagination()
+    pagination.placeAt(dom.byId('pagination'));
+    eventScope.registerComponents([grid, pagination])
+    grid.loadContent();
+```
+
+Теперь два компонента лбщаются через полностью закрытую событийную среду,
+которая знает о компонентах содержащихся в ней.
+
+## RComposite
+RComposite нужен для стандартизации и облегчения работы с компонентами.
+Он предоставляет общий алгоритм для создания компонентов, их настройки,
+помещения в общий `EventScope` и размещения на странице.
+* Конкретная логика создания и размещения делегирутеся специальным обьектам
+
+* Обьединяет компоненты внутри с помощью общего EventScope
+
+Композит содержит следующие компоненты:
+* Фабрика компонентов - инкапсулирует логику получения компонентов из префабов
+    * Префаб - фабрика, инкапсулирующая создание компонента.
+    * Каждый компонент регистрируется в виде префаба
+    * Созданный компонент может быть композитом, который содержит компоненты
+* Размещатель компонентов - инкапсулирует логику размещения визуальных компонентов
+    * Размещает компоненты по шаблону на внутренней ноде
+* EventScope
+
+Подробнее о RComposite - [тут]()
+После запуска композит передаёт префабы и локальные настройки в фабрику.
+Она сделает из этого добра виджеты. Фабрика передаст в префаб локальные
+настройки и поместит результат его работы в общий EventScope.
+
+Общий EventScope обьединяет все компоненты которые находятся на одном уровне в композите.
+
+    Компоненты компонентов будут иметь свой EventScope. Но при необходимости передать во все
+    композиты один EventScope можно.
+
+Потом композит передаёт виджеты размещателю, который размещает их на фрагменте документа.
+Когда были созданы и размещены все виджеты, композит возьмёт у размещателя итоговый
+фрагмент и добавит его в содержимое своей ДОМ ноды.
+
+
 
 
