@@ -1,9 +1,2 @@
 node_modules
-.idea/copyright/
-.idea/rgrid.iml
-.idea/encodings.xml
-.idea/inspectionProfiles/
-.idea/misc.xml
-.idea/modules.xml
-.idea/workspace.xml
-.idea/php.xml
+.idea/*
