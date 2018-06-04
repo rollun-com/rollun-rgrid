@@ -9,7 +9,7 @@
   "sub": true,
   "undef": true,
   "unused": true,
+  "boss": true,
   "eqnull": true,
-  "node": true,
-  "dojo": true
+  "node": true
 }
