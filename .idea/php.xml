@@ -10,4 +10,5 @@
       <interpreter home="php" id="5b1d3403-5075-4680-9cc5-a47abac597a7" name="Interpreter for Composer" debugger_id="php.debugger.XDebug" />
     </interpreters>
   </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
 </project>
