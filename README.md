@@ -20,7 +20,7 @@ var dojoConfig = {
 			packages: [
 				{
 					name: "rgrid",
-					location: 'https://cdn.jsdelivr.net/npm/rgrid@0/lib'
+					location: 'https://cdn.jsdelivr.net/npm/rgrid@0.1/lib'
 				},
 				{
 					name: "dstore",
@@ -51,11 +51,11 @@ var dojoConfig = {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/dojo@1.13.0/dojo.js"></script>
 ```
-* Добавить CSS.Для этого добавьте в `<head>` вашего файла следующие строки:
+* Добавить CSS. Для этого добавьте в `<head>` вашего файла следующие строки:
 ```
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rgrid@0/lib/css/rgrid.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rgrid@0/themes/flat/flat.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rgrid@0/lib/css/FilterEditor.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rgrid@0.1/lib/css/rgrid.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rgrid@0.1/themes/flat/flat.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rgrid@0.1/lib/css/FilterEditor.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dojox/highlight/resources/highlight.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dojox/highlight/resources/pygments/colorful.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dgrid/css/dgrid.css">
@@ -72,6 +72,7 @@ Query обьектом.
     * Подробнее узнать о QueryableStore можно [тут](./docs/QueryableStore.md).
 * Передать это хранилище в таблицу.
 * Запустить таблицу.
+
 Чтобы сделать вышеописанное, добавьт в файл следующее:
 ```
 <script>
@@ -179,7 +180,7 @@ RComposite нужен для стандартизации и облегчени�
 * Конкретная логика создания и размещения делегирутеся специальным обьектам
 * Обьединяет компоненты внутри с помощью общего EventScope
 
-Подробнее о RComposite - [тут](./docs/Rcopmosite.md).
+Подробнее о RComposite - [тут](./docs/RCopmosite.md).
 
 
 
