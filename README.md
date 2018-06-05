@@ -10,13 +10,12 @@ events and RQL. Comes with decent DnD filter editor. All docs are currently only
 `rgridTestPage.html`
 
 Для получения минимального работоспособного приложения нужно:
-* Подключить загрузчик Dojo, предваритеьно зарегистрировав нужные пакеты.
-Для этого добавьте в файл следующие строки:
+1) Подключить загрузчик Dojo, предваритеьно зарегистрировав нужные пакеты.
+Для этого добавьте в `<head>` файла следующие строки:
 ```
 <script>
 var dojoConfig = {
 			async: true,
-			isDebug: true,
 			packages: [
 				{
 					name: "rgrid",
@@ -51,7 +50,7 @@ var dojoConfig = {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/dojo@1.13.0/dojo.js"></script>
 ```
-* Добавить CSS. Для этого добавьте в `<head>` вашего файла следующие строки:
+2) Добавить CSS. Для этого добавьте в `<head>` вашего файла следующие строки:
 ```
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rgrid@0.1/lib/css/rgrid.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rgrid@0.1/themes/flat/flat.css">
@@ -67,13 +66,12 @@ var dojoConfig = {
 ```
 <body class='flat'>
 ```
-* Создать хранилище с данными, которое работает с [rollun-rql](https://github.com/rollun-com/rollun-rql)
+3) Создать хранилище с данными, которое работает с [rollun-rql](https://github.com/rollun-com/rollun-rql)
 Query обьектом.
     * Подробнее узнать о QueryableStore можно [тут](./docs/QueryableStore.md).
-* Передать это хранилище в таблицу.
-* Запустить таблицу.
+4) Передать это хранилище в таблицу и запустить её.
 
-Чтобы сделать вышеописанное, добавьт в файл следующее:
+* Чтобы сделать вышеописанное, добавьте в файл следующее:
 ```
 <script>
 require(['rgrid/Rgrid','rgrid/store/QueryableStore'], (Rgrid, QueryableStore) => {
@@ -86,9 +84,12 @@ require(['rgrid/Rgrid','rgrid/store/QueryableStore'], (Rgrid, QueryableStore) =>
 </script>
 <div id="grid"></div>
 ```
-Теперь запустите тестовый сервер, выполнив `node node_modules/rgrid/example/mockServer.js`
-и перейдите по адресу `localhost:8080/test`. В итоге выйдет таблица, которая
-отрисовывает первые 15 записей из хранилища.
+5) Запустить тестовый сервер. Для этого нужно выполнить команду `node node_modules/rgrid/example/mockServer.js`
+из директории проекта
+    * Эта команда запустит тестовый сервер для илюстрации данного туториала.
+    * Сервер не является полноценным бэкендом. Полноценный бэкенд доступен [здесь](https://github.com/rollun-com/rollun-datastore)
+6) Ознакомиться с результатом. Для этого перейдите по адресу `localhost:8080/test`.
+В итоге выйдет таблица, которая отрисовывает первые 15 записей из хранилища.
 
 Чтобы управлять тем, какие данные отрисовывает таблица, нужно менять обьект
 Query, который она содержит.
@@ -163,22 +164,99 @@ grid.loadContent();
 			grid.loadContent();
 		});
 </script>
-<div id='pagination'></div>
-<div id='search'></div>
+<div style='display: flex; justify-content: space-between;'>
+    <span id='pagination'></span>
+    <span id='search'></span>
+</div>
 <div id='grid'></div>
 ```
 Теперь два компонента общаются через полностью закрытую событийную среду,
 которая знает о компонентах содержащихся в ней.
 
-Подробнее о работе с Rgrid и компонентами - [тут](./docs/Rgrid.md)
+Подробнее о Rgrid и компонентах можно узнать [тут](./docs/Rgrid.md)
 
 ## RComposite
 RComposite нужен для стандартизации и облегчения работы с компонентами.
 
 Он предоставляет общий алгоритм для создания компонентов, их настройки,
 помещения в общий `EventScope` и размещения на странице.
+
 * Конкретная логика создания и размещения делегирутеся специальным обьектам
 * Обьединяет компоненты внутри с помощью общего EventScope
+* Все компоненты, с которыми он работает, должны быть представлены в виде
+*префабов* - инкапсулированых фабрик, создающих виджеты dojo, используя
+локальные инастройки и внутренню логику.
+
+Для того, чтобы базово использовать RCopmosite, нужно:
+1) Выполнить пункты 1) и 2) из предыдущего туториала
+2) Добавить в файл следующие строки:
+```
+<script>
+require(
+           [
+               'dojo/dom',
+               'rgrid/Composite/RComposite',
+               'rgrid/Composite/WidgetFactory',
+               'rgrid/Composite/TemplateWidgetPlacer',
+               'rgrid/prefabs/ConditionPanel',
+               'rgrid/prefabs/Pagination',
+               'rgrid/prefabs/Rgrid',
+               'rgrid/prefabs/Search',
+               'dstore/Memory',
+               'dojo/text!rgrid/example/testTemplate.html'
+           ], function (
+               dom,
+               RComposite,
+               WidgetFactory,
+               TemplateWidgetPlacer,
+               ConditionPanelPrefab,
+               PaginationPrefab,
+               RgridPrefab,
+               SearchPrefab,
+               Memory,
+               template
+               ) {
+               const factory = new WidgetFactory(),
+               placer = new TemplateWidgetPlacer(),
+               configStore = new Memory({data: [{id: 'gridTarget', url: '/my/datastore'}]}),
+               composite = new RComposite({
+                   widgetFactory: factory,
+                   widgetPlacer: placer,
+                   configStore: configStore,
+                   templateString: template
+               });
+               composite.addComponents([new RgridPrefab(),
+                                        new PaginationPrefab(),
+                                        new SearchPrefab()]);
+               composite.placeAt(dom.byId('composite'));
+               composite.startup();
+           }
+   );
+</script>
+<div id='composite'></div>
+```
+Этот фрагмент кода собирает rgrid c пагинацией и поисковой строкой, и размещает
+их согласно шаблону из файла testTemplate.html. Готовый фрагмент документа
+заменит собой ДОМ ноду композита.
+
+Содержимое файла `testTemplate.html` приведено ниже:
+```
+<div>
+    <div data-dojo-attach-point="filters"></div>
+    <div style="display: flex; justify-content: space-between;">
+        <span data-dojo-attach-point="pagination"></span>
+        <span data-dojo-attach-point="search"></span>
+    </div>
+    <div data-dojo-attach-point="rgrid-grid"></div>
+</div>
+```
+Здесь при помощи атрибута `data-dojo-attach-point` указаны точки крепления
+виджетов.
+
+В процессе работы все виджеты будут созданы из префабов с предопределёнными
+настройками, а недостающие данные будут получены из `configStore`. После
+создания композит поместит все виджеты в один `EventScope` и разместит их
+согласно информации об их точке крепления.
 
 Подробнее о RComposite - [тут](./docs/RCopmosite.md).
 

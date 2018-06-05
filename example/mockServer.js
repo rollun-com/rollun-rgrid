@@ -37,7 +37,6 @@ const http = require('http'),
 			if (limit > 25) {
 				limit = 25;
 			}
-			console.log(limit);
 			contentType = 'application/json';
 
 			responseCode = 200;

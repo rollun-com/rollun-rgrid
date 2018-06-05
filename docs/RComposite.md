@@ -74,14 +74,32 @@ testTemplate.html:
            }
    );
 ```
+Содержимое файла `testTemplate.html` приведено ниже:
+```
+<div>
+    <div data-dojo-attach-point="filters"></div>
+    <div style="display: flex; justify-content: space-between;">
+        <span data-dojo-attach-point="pagination"></span>
+        <span data-dojo-attach-point="search"></span>
+    </div>
+    <div data-dojo-attach-point="rgrid-grid"></div>
+</div>
+```
+
 
 ## Описание API
 ### RComposite
 ##### Зависимости
 Конструктор принимает обьект со следующими параметрами:
-* configStore: object - dstore/Store совместимое хранилище с локальными настройками.
-Будет использовано фабрикой виджетов.
-* widgetPlacer: object - rgrid/WidgetPlacer или другой совместимый обьект. Отвечает за
-* widgetFactory: object - rgrid/WidgetFactory или другой совместимый обьект
-* eventScope?: object - rgrid/EventScope или другой совместимый обьект
-* templateString?: string -
+* configStore: object - dstore/Store-совместимое хранилище. Хранит локальные
+настройки.
+Будет использовано фабрикой виджетов для иньецироваия настроек в виджеты.
+* widgetFactory: object - rgrid/WidgetFactory или другой совместимый обьект.
+Обрабатывает префабы, передаёт им хранилище настроек, помещает результаты работы
+префабов в общий EventScope
+* widgetPlacer: object - rgrid/WidgetPlacer или другой совместимый обьект.
+Размещает виджеты в документе
+* eventScope?: object - rgrid/EventScope или другой совместимый обьект.
+Обьединяет компоненты одной событийной средой
+* templateString?: string - строка с шаблоном. Инструкция, по которой widgetPlacer
+разместит компоненты.
