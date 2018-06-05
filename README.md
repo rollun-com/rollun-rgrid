@@ -15,59 +15,79 @@ events and RQL. Comes with decent DnD filter editor. All docs are currently only
 ```
 <script>
 var dojoConfig = {
-                async: true,
-                packages: [
-                    {
-                        name: 'rgrid',
-                        location: '../rgrid/lib'
-                    },
-                    {
-                        name: 'dstore',
-                        location: '../dojo-dstore'
-                    },
-                    {
-                        name: 'promised-io',
-                        location: '../promised-io'
-                    },
-                    {
-                        name: 'rql',
-                        location: '../rollun-rql'
-                    },
-                    {
-                        name: 'dgrid',
-                        location: '../dgrid'
-                    },
-                    {
-                        name: 'dijit',
-                        location: '../dijit'
-                    },
-                    {
-                        name: 'dojox',
-                        location: '../dojox'
-                    },
-                ]
-            };
+			async: true,
+			isDebug: true,
+			packages: [
+				{
+					name: "rgrid",
+					location: 'https://cdn.jsdelivr.net/npm/rgrid@0/lib'
+				},
+				{
+					name: "dstore",
+					location: 'https://cdn.jsdelivr.net/npm/dojo-dstore'
+				},
+				{
+					name: "promised-io",
+					location: 'https://cdn.jsdelivr.net/npm/promised-io'
+				},
+				{
+					name: "rql",
+					location: 'https://cdn.jsdelivr.net/npm/rollun-rql'
+				},
+				{
+					name: "dgrid",
+					location: 'https://cdn.jsdelivr.net/npm/dgrid'
+				},
+				{
+					name: "dijit",
+					location: 'https://cdn.jsdelivr.net/npm/dijit'
+				},
+				{
+					name: "dojox",
+					location: 'https://cdn.jsdelivr.net/npm/dojox'
+				},
+			]
+		};
 </script>
-<script src="node_modules/dojo/dojo.js">
+<script src="https://cdn.jsdelivr.net/npm/dojo@1.13.0/dojo.js"></script>
+```
+* Добавить CSS.Для этого добавьте в `<head>` вашего файла следующие строки:
+```
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rgrid@0/lib/css/rgrid.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rgrid@0/themes/flat/flat.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rgrid@0/lib/css/FilterEditor.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dojox/highlight/resources/highlight.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dojox/highlight/resources/pygments/colorful.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dgrid/css/dgrid.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dojo@1.13.0/resources/dojo.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dojo@1.13.0/resources/dnd.css">
+```
+И присвойте `<body>` класс flat:
+```
+<body class='flat'>
 ```
 * Создать хранилище с данными, которое работает с [rollun-rql](https://github.com/rollun-com/rollun-rql)
 Query обьектом.
     * Подробнее узнать о QueryableStore можно [тут](./docs/QueryableStore.md).
 * Передать это хранилище в таблицу.
-* Запустить таблицу. Для этого добавьт в файл следующее:
+* Запустить таблицу.
+Чтобы сделать вышеописанное, добавьт в файл следующее:
 ```
 <script>
-require(['rgrid/Rgrid','rgrid/store/QueryableStore'], (Rgrid, queryableStore) => {
+require(['rgrid/Rgrid','rgrid/store/QueryableStore'], (Rgrid, QueryableStore) => {
     const grid = new Rgrid({
-        collection: new QueryableStore({target: 'my/datastore'})
+        collection: new QueryableStore({target: 'my/datastore'}),
+        class: 'dgrid-autoheight'
         }, 'grid')
     grid.loadContent();
 })
 </script>
 <div id="grid"></div>
 ```
-Теперь запустите тестовый сервер и перейдите по адресу страницы. В итоге
-выйдет таблица, которая отрисовывает первые 15 записей из хранилища.
+Теперь запустите тестовый сервер, выполнив `node node_modules/rgrid/example/mockServer.js`
+и перейдите по адресу `localhost:8080/test`. В итоге выйдет таблица, которая
+отрисовывает первые 15 записей из хранилища.
 
 Чтобы управлять тем, какие данные отрисовывает таблица, нужно менять обьект
 Query, который она содержит.
@@ -76,12 +96,13 @@ Query, который она содержит.
 Для иллюстрации удалите из кода выше вызов функции `loadContent` и добавьте
 вместо него следующие строки:
 ```
-Query = require('rql/query').Query;
-grid.appendQuery(new Query({name: 'select', args: ['id', 'name']);
+const Query = require('rql/query').Query;
+grid.appendQuery(new Query({name: 'select', args: ['id', 'name']}));
+grid.appendQuery(new Query({name: 'limit', args: [10]}));
 grid.loadContent();
 ```
 Этот код добавит к Query таблицы ноду `select` и загрузит содержимое согласно обновлённому Query.
-В итоге таблица отрисует 15 записей с полями 'id', 'name'.
+В итоге таблица отрисует 10 записей с полями 'id', 'name'.
 
 Методы таблицы для работы с Query:
 * `setQuery(query)` - заменить внутренний Query новым
@@ -116,24 +137,33 @@ grid.loadContent();
 
 ```
 <script>
-require(['rgrid/Rgrid',
-        'rgrid/store/QueryableStore',
-        'rgrid/Pagination',
-        'dojo/dom'],
-        (Rgrid,
-        QueryableStore,
-        Pagination,
-        dom,
-        EventScope) => {
-    const eventScope = new EventScope(),
-        grid = new Rgrid({
-            collection: new QueryableStore({target: 'my/datastore'})
-         }, 'grid'),
-        pagination = new Pagination({domNode: dom.byId('pagination')});
-    eventScope.registerComponents([grid, pagination]);
-    grid.loadContent();
+	require(['rgrid/Rgrid',
+			'rgrid/store/QueryableStore',
+			'rgrid/Pagination',
+			'dojo/dom',
+			'rgrid/EventScope',
+			'rgrid/SearchBar',],
+		(Rgrid,
+		 QueryableStore,
+		 Pagination,
+		 dom,
+		 EventScope,
+		 SearchBar) => {
+			const eventScope = new EventScope(),
+				grid = new Rgrid({
+					collection: new QueryableStore({target: 'my/datastore'}),
+					class: 'dgrid-autoheight'
+				}, 'grid'),
+				pagination = new Pagination({domNode: dom.byId('pagination')}),
+				searchBar = new SearchBar({
+				});
+			searchBar.placeAt(dom.byId('search'));
+			eventScope.registerMultiple([grid, pagination, searchBar]);
+			grid.loadContent();
+		});
 </script>
 <div id='pagination'></div>
+<div id='search'></div>
 <div id='grid'></div>
 ```
 Теперь два компонента общаются через полностью закрытую событийную среду,

@@ -8,11 +8,11 @@ function generateData() {
 
 function getTestHtml() {
 	const fs = require('fs');
-	if (fs.existsSync('../rgridTestPage.html')) {
-		return fs.readFileSync("../rgridTestPage.html", "utf8");
+	if (fs.existsSync('rgridTestPage.html')) {
+		return fs.readFileSync("rgridTestPage.html", "utf8");
 	} else {
-		if (fs.existsSync('./testPage.html')) {
-			return fs.readFileSync("./testPage.html", "utf8");
+		if (fs.existsSync('node_modules/rgrid/example/testPage.html')) {
+			return fs.readFileSync("node_modules/rgrid/example/testPage.html", "utf8");
 		} else {
 			throw new Error('Test template is missing');
 		}
@@ -64,3 +64,4 @@ const http = require('http'),
 		response.end(responseData);
 	});
 server.listen(8080);
+console.log('Server listening on localhost:8080');

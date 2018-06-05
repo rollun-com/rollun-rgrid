@@ -2,77 +2,86 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>eventBasedInteractionTest</title>
+    <title>Test</title>
     <script>
-        var dojoConfig = {
-            async: true,
-            isDebug: true,
-            packages: [
-                {
-                    name: "rgrid",
-                    location: '../../lib'
-                },
-                {
-                    name: "dstore",
-                    location: '../dojo-dstore'
-                },
-                {
-                    name: "promised-io",
-                    location: '../promised-io'
-                },
-                {
-                    name: "rql",
-                    location: '../rollun-rql'
-                },
-                {
-                    name: "dgrid",
-                    location: '../dgrid'
-                },
-                {
-                    name: "dijit",
-                    location: '../dijit'
-                },
-                {
-                    name: "dojox",
-                    location: '../dojox'
-                },
-            ]
-        };
+		var dojoConfig = {
+			async: true,
+			isDebug: true,
+			packages: [
+				{
+					name: "rgrid",
+					location: 'https://cdn.jsdelivr.net/npm/rgrid@0/lib'
+				},
+				{
+					name: "dstore",
+					location: 'https://cdn.jsdelivr.net/npm/dojo-dstore'
+				},
+				{
+					name: "promised-io",
+					location: 'https://cdn.jsdelivr.net/npm/promised-io'
+				},
+				{
+					name: "rql",
+					location: 'https://cdn.jsdelivr.net/npm/rollun-rql'
+				},
+				{
+					name: "dgrid",
+					location: 'https://cdn.jsdelivr.net/npm/dgrid'
+				},
+				{
+					name: "dijit",
+					location: 'https://cdn.jsdelivr.net/npm/dijit'
+				},
+				{
+					name: "dojox",
+					location: 'https://cdn.jsdelivr.net/npm/dojox'
+				},
+			]
+		};
     </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rgrid@0/lib/css/rgrid.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rgrid@0/themes/flat/flat.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rgrid@0/lib/css/FilterEditor.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dojox/highlight/resources/highlight.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dojox/highlight/resources/pygments/colorful.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dgrid/css/dgrid.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dojo@1.13.0/resources/dojo.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dojo@1.13.0/resources/dnd.css">
     <script src="https://cdn.jsdelivr.net/npm/dojo@1.13.0/dojo.js"></script>
 </head>
-<body>
+<body class='flat'>
 <script>
-    require([
-        'rgrid/Rgrid',
-        'rgrid/EventScope',
-        'rgrid/Pagination',
-        'rgrid/SearchBar',
-        'rgrid/FilterControlPanel',
-        'rgrid/QueryableStore',
-        'dojo/dom',
-        'dojo/Evented',
-        //'dojo/text!./lib/testTemplate'
-    ], function (Rgrid,
-                 EventScope,
-                 Pagination,
-                 SearchBar,
-                 FilterControlPanel,
-                 QueryableStore,
-                 dom,
-                 Evented) {
-        var queryStore = new QueryableStore({target: './fakeStore.json'}),
-            eventBus = new Evented(),
-            rgrid = new Rgrid({collection: queryStore, eventBus: eventBus}, dom.byId('rgrid')),
-            searchBar = new SearchBar(),
-            eventScope = new EventScope({components: [rgrid, searchBar], eventBus: eventBus});
-        searchBar.placeAt(dom.byId('searchBar'));
-        rgrid.startup();
-		new Rgrid()
-
-    })
+	require(['rgrid/Rgrid',
+			'rgrid/store/QueryableStore',
+			'rgrid/Pagination',
+			'dojo/dom',
+			'rgrid/EventScope',
+			'rgrid/SearchBar',],
+		(Rgrid,
+		 QueryableStore,
+		 Pagination,
+		 dom,
+		 EventScope,
+		 SearchBar) => {
+			const eventScope = new EventScope(),
+				grid = new Rgrid({
+					collection: new QueryableStore({target: 'my/datastore'}),
+					class: 'dgrid-autoheight'
+				}, 'grid'),
+				pagination = new Pagination({domNode: dom.byId('pagination')}),
+				searchBar = new SearchBar({
+					class: 'items-right-aligned'
+				});
+			searchBar.placeAt(dom.byId('search'));
+			eventScope.registerMultiple([grid, pagination, searchBar]);
+			grid.loadContent();
+		});
 </script>
-<div id="searchBar"></div>
-<div id="rgrid"></div>
+<div>
+    <span id='pagination'></span>
+    <span id='search'></span>
+</div>
+<div id='grid'></div>
 </body>
 </html>
