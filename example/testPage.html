@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>eventBasedInteractionTest</title>
+    <script>
+        var dojoConfig = {
+            async: true,
+            isDebug: true,
+            packages: [
+                {
+                    name: "rgrid",
+                    location: '../../lib'
+                },
+                {
+                    name: "dstore",
+                    location: '../dojo-dstore'
+                },
+                {
+                    name: "promised-io",
+                    location: '../promised-io'
+                },
+                {
+                    name: "rql",
+                    location: '../rollun-rql'
+                },
+                {
+                    name: "dgrid",
+                    location: '../dgrid'
+                },
+                {
+                    name: "dijit",
+                    location: '../dijit'
+                },
+                {
+                    name: "dojox",
+                    location: '../dojox'
+                },
+            ]
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/dojo@1.13.0/dojo.js"></script>
+</head>
+<body>
+<script>
+    require([
+        'rgrid/Rgrid',
+        'rgrid/EventScope',
+        'rgrid/Pagination',
+        'rgrid/SearchBar',
+        'rgrid/FilterControlPanel',
+        'rgrid/QueryableStore',
+        'dojo/dom',
+        'dojo/Evented',
+        //'dojo/text!./lib/testTemplate'
+    ], function (Rgrid,
+                 EventScope,
+                 Pagination,
+                 SearchBar,
+                 FilterControlPanel,
+                 QueryableStore,
+                 dom,
+                 Evented) {
+        var queryStore = new QueryableStore({target: './fakeStore.json'}),
+            eventBus = new Evented(),
+            rgrid = new Rgrid({collection: queryStore, eventBus: eventBus}, dom.byId('rgrid')),
+            searchBar = new SearchBar(),
+            eventScope = new EventScope({components: [rgrid, searchBar], eventBus: eventBus});
+        searchBar.placeAt(dom.byId('searchBar'));
+        rgrid.startup();
+		new Rgrid()
+
+    })
+</script>
+<div id="searchBar"></div>
+<div id="rgrid"></div>
+</body>
+</html>
