@@ -1,3 +1,4 @@
+require("amd-loader");
 function generateData() {
 	let firstPart = (Math.random() * 46656) | 0,
 		secondPart = (Math.random() * 46656) | 0;
@@ -12,52 +13,55 @@ function getTestHtml() {
 		return fs.readFileSync("rgridTestPage.html", "utf8");
 	} else {
 		if (fs.existsSync('node_modules/rgrid/example/testPage.html')) {
-			return fs.readFileSync("node_modules/rgrid/example/testPage.html", "utf8");
+		    return fs.readFileSync("node_modules/rgrid/example/testPage.html", "utf8");
 		} else {
 			throw new Error('Test template is missing');
 		}
 	}
 }
+function getDatastoreData() {
+	let dataStoreData = [];
+	for (let i = 1; i < 51; i++) {
+		dataStoreData.push({id: i, name: generateData(), value: generateData() + generateData()});
+	}
+	return dataStoreData;
+}
 
 const http = require('http'),
+	jsArray = require('../rollun-rql/js-array'),
+	dataStoreData = getDatastoreData(),
 	server = http.createServer((request, response) => {
+		request.on('error', (err) => {
+			console.error(err);
+			response.statusCode = 500;
+			response.end();
+		});
 		let responseData,
 			contentType,
 			responseCode,
-			limit;
-		const {url} = request;
+			limit = 1;
+		let {url} = request;
+		console.log(url);
 		if (url.search('test') !== -1) {
 			contentType = 'text/html';
 			responseCode = 200;
 			responseData = getTestHtml();
 		} else {
-			const limitIndex = url.search('limit'),
-				selectNodeIndex = url.search('select\\(id,name\\)');
-			limit = parseInt(url.slice(limitIndex + 6, limitIndex + 8)) || 15;
-			if (limit > 25) {
-				limit = 25;
+			if (url === '/favicon.ico') {
+				url = url + '?and()';
 			}
+			const parts = url.split('?');
+			console.log(parts);
+			const rql = parts[(parts.length - 1)];
+			console.log(rql);
+			let dataStoreResult = jsArray.query(rql, {}, dataStoreData);
 			contentType = 'application/json';
-
 			responseCode = 200;
-			let dataStoreData = [];
-			for (let i = 1; i < limit + 1; i++) {
-				let item = {
-					id: i,
-					name: generateData()
-				};
-				dataStoreData.push(item);
-			}
-			if (selectNodeIndex === -1) {
-				for (let item of dataStoreData) {
-					item.value = generateData() + generateData();
-				}
-			}
-			responseData = JSON.stringify(dataStoreData);
+			responseData = JSON.stringify(dataStoreResult);
 		}
 		response.setHeader('Content-Type', contentType);
 		if (limit) {
-			response.setHeader('Content-Range', `1-${limit}/25`);
+			response.setHeader('Content-Range', `1-${limit}/50`);
 		}
 		response.statusCode = responseCode;
 		response.end(responseData);
