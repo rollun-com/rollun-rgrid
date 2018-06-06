@@ -1,7 +1,7 @@
 {
   "name": "rgrid",
   "description": "dgrid based grid with advanced filters",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "homepage": "https://github.com/rollun-com/rollun-rgrid",
   "author": {
     "name": "victorynox",
@@ -33,7 +33,7 @@
     "dojo-dstore": "1.1.1",
     "dgrid": "1.1.0",
     "rollun-rql": "0.x",
-    "amd-loader" : "0.0.8"
+    "amd-loader": "0.0.8"
   },
   "keywords": [
     "grid",
