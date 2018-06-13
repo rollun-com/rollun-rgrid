@@ -5,27 +5,27 @@
 }
 
 .eq {
-    background-image: url("../images/eq.png");
+    background-image: url("../ConditionEditor/resources/eq.png");
 }
 
 .ne {
-    background-image: url("../images/ne.png");
+    background-image: url("../ConditionEditor/resources/ne.png");
 }
 
 .gt {
-    background-image: url("../images/gt.png");
+    background-image: url("../ConditionEditor/resources/gt.png");
 }
 
 .gte {
-    background-image: url("../images/gte.png");
+    background-image: url("../ConditionEditor/resources/gte.png");
 }
 
 .lt {
-    background-image: url("../images/lt.png");
+    background-image: url("../ConditionEditor/resources/lt.png");
 }
 
 .lte {
-    background-image: url("../images/lte.png");
+    background-image: url("../ConditionEditor/resources/lte.png");
 }
 
 @media (min-width: 1320px) {
