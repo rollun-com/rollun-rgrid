@@ -9,14 +9,15 @@
 
 .dgrid-pagination {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: flex-start;
+    border: 1px solid darkgrey;
+    margin:  2px;
+    border-radius: 3px;
+    padding: 2px 4px;
+    min-width: 390px;
 }
 
-.dgrid-status .dgrid-page-size .dgrid-navigation{
-margin: 0px 4px 0px 4px !important;
-}
-
-.filteredGrid {
-
+.dgrid-navigation {
+    display: flex;
 }
