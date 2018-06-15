@@ -21,3 +21,7 @@
 .dgrid-navigation {
     display: flex;
 }
+
+.filter_active {
+    max-height: 70px;
+}

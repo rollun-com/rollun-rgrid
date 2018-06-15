@@ -48,20 +48,6 @@
     display: inline-block;
 }
 
-.search-refresh-bar {
-    vertical-align: top;
-    border-left: 1px solid darkgrey;
-    border-right: 1px solid darkgrey;
-}
-
-.search-refresh-bar #searchBar {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.search-refresh-bar #refreshButton {
-    float: left;
-}
 
 
 
