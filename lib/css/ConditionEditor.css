@@ -16,7 +16,7 @@
     background-image: url("../ConditionEditor/resources/gt.png");
 }
 
-.gte {
+.ge {
     background-image: url("../ConditionEditor/resources/gte.png");
 }
 
@@ -24,7 +24,7 @@
     background-image: url("../ConditionEditor/resources/lt.png");
 }
 
-.lte {
+.le {
     background-image: url("../ConditionEditor/resources/lte.png");
 }
 
