@@ -25,3 +25,7 @@
 .filter_active {
     max-height: 70px;
 }
+
+.dgrid-hider-menu {
+    overflow: scroll;
+}
