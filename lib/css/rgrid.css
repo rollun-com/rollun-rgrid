@@ -12,7 +12,7 @@
     justify-content: space-between;
     align-items: center;
     border: 1px solid darkgrey;
-    margin:  2px;
+    margin: 2px;
     border-radius: 3px;
     padding: 2px 4px;
     min-width: 390px;
@@ -28,4 +28,14 @@
 
 .dgrid-hider-menu {
     overflow: scroll;
+}
+
+.rgrid-webhook-btn-group {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.rgrid-webhook-btn {
+
 }
