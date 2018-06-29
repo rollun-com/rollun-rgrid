@@ -1,7 +1,7 @@
 {
   "name": "rgrid",
   "description": "dgrid based grid with advanced filters",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "homepage": "https://github.com/rollun-com/rollun-rgrid",
   "author": {
     "name": "victorynox",
