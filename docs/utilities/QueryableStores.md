@@ -1,4 +1,4 @@
-# QueryableStore
+## QueryableStore
 Store представляющий из себя надстройку над `dstore/Rest`
 ### Особенности
 * Не поддерживает стандартные фильтры dstore
