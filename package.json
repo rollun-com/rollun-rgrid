@@ -21,10 +21,7 @@
     }
   ],
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.6.4",
-    "grunt-contrib-nodeunit": "~0.2.0",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt": "~0.4.5"
+    "amd-loader": "0.0.8"
   },
   "dependencies": {
     "dojo": "1.11.2",
@@ -32,8 +29,7 @@
     "dijit": "1.11.2",
     "dojo-dstore": "1.1.1",
     "dgrid": "1.1.0",
-    "rollun-rql": "0.x",
-    "amd-loader": "0.0.8"
+    "rollun-rql": "0.x"
   },
   "keywords": [
     "grid",
