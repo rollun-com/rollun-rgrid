@@ -2,11 +2,9 @@
     display: flex;
     justify-content: flex-end;
 }
-
 .dgrid-page-size {
     padding: 0;
 }
-
 .dgrid-pagination {
     display: flex;
     justify-content: space-between;
@@ -17,45 +15,44 @@
     padding: 2px 4px;
     min-width: 390px;
 }
-
 .dgrid-navigation {
     display: flex;
 }
-
 .filter_active {
     max-height: 70px;
 }
-
 .dgrid-hider-menu {
     overflow: scroll;
 }
-
 .rgrid-webhook-btn-group {
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
 }
-
 .rgrid-webhook-btn {
 
 }
-
 .rgrid-file-upload-input {
     margin: 3px
 }
-
 .r-lsb-panes .dijitTitlePaneTitle {
     border: 0;
 }
-
 .r-lsb-panes .dijitTitlePaneContentOuter {
     border: 0;
 }
 .r-lsb-panes .dijitTitlePaneContentInner {
-    padding: 0 0 0 .25rem;
+    padding: 0 0 0 0;
 }
-
-.r-navbar .dijitMenuBar .dijitMenuItem{
+.r-lsb-panes .btn {
+    width: 100%;
+    text-align: left;
+    padding: 4px 4px 4px 1.8rem;
+}
+.r-lsb-panes .btn:hover {
+    background-color: #f2f2f2
+}
+.r-navbar .dijitMenuBar .dijitMenuItem {
     padding-left: 2rem;
     padding-right: 2rem;
 }
