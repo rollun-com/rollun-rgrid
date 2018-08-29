@@ -12,34 +12,34 @@
 
 Конфиг виджета выглядит так:
 ```
-	[
-		{
-			label: 'pane 1',
-			content: [
-				{
-					label: 'service 1',
-					uri: 'service/1/uri'
-				},
-				{
-					label: 'service 2',
-					uri: 'service/2/uri'
-				},
-				{
-					label: 'pane for services v2',
-					content: [
-						{
-							label: 'service v2/1',
-							uri: 'service/v2/1/uri'
-						},
-						{
-							label: 'service v2/2',
-							uri: 'service/v2/2/uri'
-						},
-					]
-				}
-			]
-		}
-	];
+const config = [
+    {
+    	label: 'pane 1',
+    	content: [
+    		{
+    			label: 'service 1',
+    			uri: 'service/1/uri'
+    		},
+    		{
+    			label: 'service 2',
+    			uri: 'service/2/uri'
+    		},
+    		{
+    			label: 'pane for services v2',
+    			content: [
+    				{
+    					label: 'service v2/1',
+    					uri: 'service/v2/1/uri'
+    				},
+    				{
+    					label: 'service v2/2',
+    					uri: 'service/v2/2/uri'
+    				},
+    			]
+    		}
+    	]
+    }
+];
 ```
 
 ## NavPanes
