@@ -19,7 +19,8 @@
     display: flex;
 }
 .filter_active {
-    max-height: 70px;
+    color: #fff;
+    max-height: 2.5rem;
 }
 .dgrid-hider-menu {
     overflow: scroll;
