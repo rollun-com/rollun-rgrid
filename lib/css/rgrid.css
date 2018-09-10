@@ -1,50 +1,73 @@
-.items-right-aligned {
+.r-pagination-widget {
     display: flex;
-    justify-content: flex-end;
+    background-color: #fff;
+}
+
+.r-hideable-panes-menu {
+    display: flex;
+    justify-content:  flex-start
 }
 .dgrid-page-size {
     padding: 0;
 }
+
 .dgrid-pagination {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border: 1px solid darkgrey;
-    margin: 2px;
+    background-color: #fff;
     border-radius: 3px;
-    padding: 2px 4px;
+    padding: 0 4px;
     min-width: 390px;
 }
+
 .dgrid-navigation {
     display: flex;
 }
-.filter_active {
-    color: #fff;
-    max-height: 2.5rem;
-}
+
 .dgrid-hider-menu {
     overflow: scroll;
 }
+
 .rgrid-webhook-btn-group {
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
 }
+
 .rgrid-webhook-btn {
 
 }
+
 .rgrid-file-upload-input {
     margin: 3px
 }
+.r-hideable-panes {
+    display: flex;
+    justify-content:  flex-start
+}
+.r-hideable-panes .dijitTitlePaneContentOuter {
+    width: -webkit-fill-available;
+    width: available;
+}
+
+.r-navbar .dijitMenuBar .dijitMenuItem {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
 .r-lsb-panes .dijitTitlePaneTitle {
     border: 0;
 }
+
 .r-lsb-panes .dijitTitlePaneContentOuter {
     border: 0;
 }
 .r-lsb-panes .dijitTitlePaneContentInner {
     padding: 0 0 0 0;
 }
+
 .r-lsb-panes .btn {
     width: 100%;
     text-align: left;
@@ -52,8 +75,4 @@
 }
 .r-lsb-panes .btn:hover {
     background-color: #f2f2f2
-}
-.r-navbar .dijitMenuBar .dijitMenuItem {
-    padding-left: 2rem;
-    padding-right: 2rem;
 }
