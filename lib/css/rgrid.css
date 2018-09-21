@@ -76,3 +76,6 @@
 .r-lsb-panes .btn:hover {
     background-color: #f2f2f2
 }
+.dgrid-hider-toggle {
+    -webkit-appearance: none!important;
+}

@@ -1,5 +1,6 @@
 {
   "browser": true,
+  "node": true,
   "esversion": 6,
   "dojo": true,
   "curly": true,
