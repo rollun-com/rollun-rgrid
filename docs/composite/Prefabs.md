@@ -74,7 +74,6 @@
 						"params": ["/webhook/doSomethingAction"]
 					}
 				},
-
 			],
 			'fileActions': {
 				'fileToDatastore': {

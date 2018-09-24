@@ -86,6 +86,10 @@ require(['rgrid/Rgrid','rgrid/store/QueryableStore'], (Rgrid, QueryableStore) =>
 ```
 5) Запустить тестовый сервер. Для этого нужно выполнить команду `node node_modules/rgrid/example/mockServer.js`
 из директории проекта
+
+     В данной версии туториала сервер поддерживает не все фичи приложения.
+     Для полного ознакомления используйте [rollun-datastore]((https://github.com/rollun-com/rollun-datastore))
+
     * Эта команда запустит тестовый сервер для илюстрации данного туториала.
     * Сервер не является полноценным бэкендом. Полноценный бэкенд доступен [здесь](https://github.com/rollun-com/rollun-datastore)
 6) Ознакомиться с результатом. Для этого перейдите по адресу `localhost:8080/test`.
@@ -258,4 +262,69 @@ require([
 создания композит поместит все виджеты в один `EventScope` и разместит их
 согласно информации об их точке крепления.
 
-Подробнее о RComposite - [тут](./docs/composite/RCopmosite.md).
+Подробнее о RComposite - [тут](./docs/composite/RComosite.md).
+
+## ConditionControlPanel
+
+rgrid содержит продвинутую систему создания услвий для запросов к datastore -
+`ConditionControlPanel`. Она позволяет создавать даже самые сложные запросы
+с помощью довольно простого UI,  сохранять их для повторного использования. Cоздаётся она с помощью префаба `ConditionsInMenu`,
+торый создаст этот виджет в скрываемой панели.
+* `ConditionsInMenu` также создаёт меню для других инструментов Rgrid. Подробнее об этом можно прочитать
+[здесь](./docs/composite/Prefabs.md).
+
+Работает это довольно просто. Вам всего лишь нужно добавить префаб `ConditionsInMenu`
+регистрируемым префабам (и указать `url` удалённого `datastore`, если
+вы хотите сохранять условия в него):
+```
+<script>
+	require([
+			'dojo/dom',
+			'rgrid/Composite/RComposite',
+			'rgrid/Composite/WidgetFactory',
+			'rgrid/Composite/TemplateWidgetPlacer',
+			'rgrid/prefabs/ConditionsInMenu',
+			'rgrid/prefabs/Pagination',
+			'rgrid/prefabs/Rgrid',
+			'rgrid/prefabs/Search',
+			'dstore/Memory',
+			'dojo/text!rgrid-example/testTemplate.html'
+		], function (
+		dom,
+		RComposite,
+		WidgetFactory,
+		TemplateWidgetPlacer,
+		ConditionsInMenu,
+		PaginationPrefab,
+		RgridPrefab,
+		SearchPrefab,
+		Memory,
+		template
+		) {
+		const factory = new WidgetFactory(),
+			config = [
+				{id: 'rgrid', gridTarget: '/my/datastore'},
+				{id: 'conditionsStore', url: '/my/datastore/for/conditions'}//опциональный параметр
+			],
+			placer = new TemplateWidgetPlacer();
+		const configStore = new Memory({data: config}),
+			composite = new RComposite({
+				widgetFactory: factory,
+				widgetPlacer: placer,
+				configStore: configStore,
+				templateString: template
+			}),
+			prefabs = [
+				new RgridPrefab(),
+				new ConditionsInMenu(),
+				new PaginationPrefab({startingPage: null}),
+				new SearchPrefab()
+			];
+		composite.addComponents(prefabs);
+		composite.placeAt(dom.byId('composite'));
+		composite.startup();
+		}
+	);
+</script>
+<div id='composite'></div>
+```

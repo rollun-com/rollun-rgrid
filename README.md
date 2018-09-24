@@ -5,6 +5,8 @@ events and RQL. Comes with decent DnD filter editor. All docs are currently only
 ### Быстрый старт
 Быстрый старт есть [здесь](/docs/Quickstart.md)
 
+Если вас интересуют менюхи - вам [сюда](/docs/MenusQuickstart.md)
+
 ### Где документация?
 * Документация по префабам - [тут](/docs/composite/Prefabs.md)
 * Документация по композиту - [тут](/docs/composite/RComposite.md)
