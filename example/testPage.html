@@ -82,7 +82,7 @@
 			grid.loadContent();
 		});
 </script>-->
-<script>
+<!--<script>
 	require([
 			'dojo/dom',
 			'rgrid/Composite/RComposite',
@@ -120,6 +120,55 @@
 				new SearchPrefab()]);
 			composite.placeAt(dom.byId('composite'));
 			composite.startup();
+		}
+	);
+</script>-->
+<script>
+	require([
+			'dojo/dom',
+			'rgrid/Composite/RComposite',
+			'rgrid/Composite/WidgetFactory',
+			'rgrid/Composite/TemplateWidgetPlacer',
+			'rgrid/prefabs/ConditionsInMenu',
+			'rgrid/prefabs/Pagination',
+			'rgrid/prefabs/Rgrid',
+			'rgrid/prefabs/Search',
+			'dstore/Memory',
+			'dojo/text!rgrid-example/testTemplate.html'
+		], function (
+		dom,
+		RComposite,
+		WidgetFactory,
+		TemplateWidgetPlacer,
+		ConditionsInMenu,
+		PaginationPrefab,
+		RgridPrefab,
+		SearchPrefab,
+		Memory,
+		template
+		) {
+		const factory = new WidgetFactory(),
+			config = [
+				{id: 'rgrid', gridTarget: '/my/datastore'},
+				{id: 'conditionsStore', url: '/my/datastore/for/conditions'}//опциональный параметр
+			],
+			placer = new TemplateWidgetPlacer();
+		const configStore = new Memory({data: config}),
+			composite = new RComposite({
+				widgetFactory: factory,
+				widgetPlacer: placer,
+				configStore: configStore,
+				templateString: template
+			}),
+			prefabs = [
+				new RgridPrefab(),
+				new ConditionsInMenu(),
+				new PaginationPrefab({startingPage: null}),
+				new SearchPrefab()
+			];
+		composite.addComponents(prefabs);
+		composite.placeAt(dom.byId('composite'));
+		composite.startup();
 		}
 	);
 </script>
