@@ -122,6 +122,7 @@ const pagination = (new PaginationPrefab({startingPage: 33})).deploy(configStore
     * рендерер клеток таблицы
     * ширина
     * изначальная видимость
+    * редактор (и его параметры)
 Конфиг:
 ```
 		{
@@ -134,6 +135,9 @@ const pagination = (new PaginationPrefab({startingPage: 33})).deploy(configStore
 					'formatter': 'func{prettyJsonFormatter}', // обработчик, возвращающий html, кторый будет отрисован в клетке таблицы
 					'renderCell': 'func{contentInTitlePane}', // обработчик, возвращающий ноду, которая будеь помещена вместо клетки в таблице
 					'width': 700 // желаемая минимальная ширина столбца в пикселях
+					'editor': 'jsonEditor',// имя редактора
+					'editOn': 'dblclick',// событие, по которому откроется редактор
+					'autosave: 'true',// сохранять сразу после закрытия редактора
 				},
 				'datetime': { // имя другого столбца
 					'formatter': 'func{datetimeConverter}',

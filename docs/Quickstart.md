@@ -68,7 +68,7 @@ var dojoConfig = {
 ```
 3) Создать хранилище с данными, которое работает с [rollun-rql](https://github.com/rollun-com/rollun-rql)
 Query обьектом.
-    * Подробнее узнать о QueryableStore можно [тут](./docs/utilities/QueryableStore.md).
+    * Подробнее узнать о QueryableStore можно [тут](./docs/utilities/QueryableStores.md).
 4) Передать это хранилище в таблицу и запустить её.
 
 * Чтобы сделать вышеописанное, добавьте в файл следующее:
