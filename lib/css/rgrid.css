@@ -79,3 +79,19 @@
 .dgrid-hider-toggle {
     -webkit-appearance: none!important;
 }
+
+div.jsoneditor-tree-inner {/*hack to fix stupid large padding in jsoneditor*/
+    padding-bottom: 0!important;
+    padding-right: 1rem;
+}
+
+div.jsoneditor-tree {
+    min-width: 400px;
+    max-height: 35rem;
+    overflow-y: scroll;
+}
+
+.json-editor-widget {
+    background-color: #fff;
+    box-shadow: 3px 7px 3px -4px rgba(0,0,0,0.3), 0 8px 8px rgba(0,0,0,0.2);
+}
