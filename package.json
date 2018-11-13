@@ -23,9 +23,12 @@
   "devDependencies": {
     "amd-loader": "0.0.8",
     "dojo-webpack-plugin": "^2.7.5",
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "uglifyjs-webpack-plugin": "^2.0.1",
-    "webpack-cli": "^3.1.0",
-    "webpack": "^4.19.1"
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.0"
   },
   "dependencies": {
     "dgrid": "1.1.0",
