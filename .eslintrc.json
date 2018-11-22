@@ -43,6 +43,7 @@
         "functions": "only-multiline"
       }
     ],
-    "indent": "off"
+    "indent": "off",
+    "no-prototype-builtins": "off"
   }
 }
